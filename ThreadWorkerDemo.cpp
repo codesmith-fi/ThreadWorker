@@ -50,7 +50,6 @@ int main()
                             LOG_INFO() << "Lambda worker: " << worker->id() << " at work, step: " << i;
                             std::this_thread::sleep_for(std::chrono::seconds(1));
                         }
-                        LOG_INFO() << "Worker: " << worker->id() << " finished task";
                     };
                     w->get()->work(lfunc);
                     break;

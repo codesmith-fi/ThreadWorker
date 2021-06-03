@@ -99,9 +99,18 @@ protected:
 private:
 	void doRun() {
 		while(m_running) {	
+			auto timep1 = std::chrono::system_clock::now();
 			if (m_state == WorkerState::EWorking) {
-				m_task();
+				LOG_INFO() << "Worker " << m_id << " starting task\n";
+				if(m_usefunction) {
+					m_task();
+				} else {
+					doWork();
+				}
 				m_state = WorkerState::EIdle;
+				auto timep2 = std::chrono::system_clock::now();
+				std::chrono::duration<float> elapsed(timep2 - timep1);
+				LOG_INFO() << "Worker [" << m_id << "] task complete, time spent: " << std::to_string(elapsed.count());
 			}
 			else {
 				LOG_INFO() << "Worker: " << m_id << " @" << Worker::WorkerStateToString(m_state);
