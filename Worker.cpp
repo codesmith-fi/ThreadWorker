@@ -9,7 +9,8 @@ Worker::Worker() : Worker(0)
 {
 }
 
-Worker::Worker(uint16_t id) : m_thread{}, m_state(WorkerState::ECreated), m_running(false), m_id(id)
+Worker::Worker(uint16_t id) : m_thread{}, m_state(WorkerState::ECreated), 
+	m_usefunction(false),  m_running(false), m_id(id)
 {
 	LOG_INFO() << "Created Worker number: " << m_id;
 }
@@ -41,15 +42,26 @@ void Worker::work()
 {
 	const std::lock_guard<std::mutex> lock(m_mutex);
 	if (m_state == WorkerState::EIdle) {
+		m_usefunction = false;
 		m_state = WorkerState::EWorking;
 	}
 }
 
+void Worker::work(std::function<void(void)> task)
+{
+	const std::lock_guard<std::mutex> lock(m_mutex);
+	if (m_state == WorkerState::EIdle) {
+		m_task = task;
+		m_usefunction = true;
+		m_state = WorkerState::EWorking;
+	}
+}
 void Worker::doRun()
 {
 	while(m_running) {	
 		if (m_state == WorkerState::EWorking) {
-			doWork();
+			m_task();
+			m_state = WorkerState::EIdle;
 		}
 		else {
 			LOG_INFO() << "Worker: " << m_id << " @" << Worker::WorkerStateToString(m_state);
@@ -60,10 +72,5 @@ void Worker::doRun()
 
 void Worker::doWork()
 {
-	for(auto i = 0; i < 10; ++i) {
-		LOG_INFO() << "Worker: " << m_id << " at work, step: " << i;
-		std::this_thread::sleep_for(std::chrono::seconds(KThreadWaitSeconds));
-	}
-	LOG_INFO() << "Worker: " << m_id << " finished task";
-	m_state = WorkerState::EIdle;
+	LOG_INFO() << "Default worker: " << m_id << " work ended\n";
 }

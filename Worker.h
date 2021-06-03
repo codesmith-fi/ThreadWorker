@@ -6,6 +6,7 @@
 #include <thread>
 #include <string>
 #include <mutex>
+#include <functional>
 
 class Worker
 {
@@ -57,6 +58,7 @@ public:
 	void start();
 	void stop();
 	void work();
+	void work(std::function<void(void)>);
 
 protected:
 	virtual void doWork();
@@ -67,9 +69,11 @@ private:
 private:
 	std::thread m_thread;
 	std::mutex m_mutex;
+	std::function<void(void)> m_task;
 	WorkerState m_state;
-	bool m_running;
 	std::uint16_t m_id;
+	bool m_running;
+	bool m_usefunction;
 };
 
 #endif //  __WORKER_H_DEFINED__

@@ -44,12 +44,19 @@ int main()
             for (auto w = my_workers.begin(); w != my_workers.end(); ++w) {
                 // Find first idle worker
                 if (w->get()->state() == Worker::WorkerState::EIdle) {
-                    w->get()->work();
+                    Worker* worker = w->get();
+                    auto lfunc = [worker]() {
+                        for (auto i = 0; i < 10 && worker->state()==Worker::WorkerState::EWorking; ++i) {
+                            LOG_INFO() << "Lambda worker: " << worker->id() << " at work, step: " << i;
+                            std::this_thread::sleep_for(std::chrono::seconds(1));
+                        }
+                        LOG_INFO() << "Worker: " << worker->id() << " finished task";
+                    };
+                    w->get()->work(lfunc);
                     break;
                 }
             }
         }
-
     }
     std::cout << "Terminating\n";
 
