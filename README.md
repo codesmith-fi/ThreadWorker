@@ -4,6 +4,7 @@ Date: 3rd of June 2021
 Contact: see bottom
 
 Description
+===========
 
 This is a simple example of an extendable multi thread worker. 
 
@@ -15,7 +16,13 @@ Each worker runs in a separate thread. The class `Worker` can be inherited and t
 
 To use, create an instance of a `Worker` class (or sub class), and call the `work()` method to start a task. You can pass a lambda function to the method which will be used by the Worker thread if given. If not given the overridden `doWork()` will be called when task begins.
 
-Contact:
+Building
+========
+
+To build, either open the MSVC 2019 project `ThreadWorkerDemo.sln` or build it with e.g. GCC using `make`. This project has no dependencies other than standard C++ library. It should compile with C++14 and upwards. 
+
+Contact
+=======
 You can reach me through my email codesmith.fi@gmail.com
 
 I also lurk in Discord with a id of "xanaki#9472" if you want to contact and talk with me. You can also find me from several coding channels like One Lone Coder and GameFromScratch for example.

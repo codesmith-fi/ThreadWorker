@@ -8,7 +8,7 @@ TARGET=threadworker
 #DEBUGLIBS=-lmss
 #LIBS=
 
-objects = worker.o threadworkerdemo.o
+objects = threadworkerdemo.o
 
 all: app
 

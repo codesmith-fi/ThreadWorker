@@ -19,9 +19,9 @@ public: // enums
 		EExiting
 	};
 
-	static std::string WorkerStateToString(const WorkerState& state) {
+	static std::string WorkerStateToString(const WorkerState& _state) {
 		std::string statestr;
-		switch (state) {
+		switch(_state) {
 			case WorkerState::EIdle: 
 			{
 				statestr = "Idle";
@@ -50,8 +50,8 @@ public: // enums
 
 public:
 	Worker() : Worker(0) { };
-	Worker(uint16_t id) : m_thread{}, m_state(WorkerState::ECreated), 
-	m_id(id), m_running(false), m_usefunction(false) {
+	Worker(uint16_t _id) : m_thread{}, m_state(WorkerState::ECreated), 
+	m_id(_id), m_running(false), m_usefunction(false) {
 		LOG_INFO() << "Created Worker number: " << m_id;
 	};
 	virtual ~Worker() { 
