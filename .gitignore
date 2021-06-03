@@ -1,0 +1,9 @@
+.vs/
+bin/
+obj/
+build/
+Debug/
+Release/
+*.v12.suo
+*.vcxproj.filters
+*.vcxproj.user
