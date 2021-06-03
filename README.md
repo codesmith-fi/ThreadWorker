@@ -10,7 +10,7 @@ This is a simple example of an extendable multi thread worker.
 
 After starting the demo, you can give following commands
     quit        will stop all worker threads and exit
-    new         will start a sample task with first free worker
+    [number]    will start a task doing the given [number] of steps, first Idle worker is allocated for it
 
 Each worker runs in a separate thread. The class `Worker` can be inherited and the actual work task implemented in the `doWork()` method which can be overridden in sub classes.
 

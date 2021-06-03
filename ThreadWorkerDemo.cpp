@@ -6,12 +6,12 @@
 #include <memory>
 #include <thread>
 #include <vector>
+#include <string>
 #include "Worker.h"
 #include "DebugLogger.h"
 
 static const uint16_t KNumberOfWorkers = 10;
 static const std::string KCommandEnd = "quit";
-static const std::string KCommandQueue = "new";
 
 int main()
 {
@@ -40,13 +40,19 @@ int main()
         std::cout << "CMD: " << std::flush;
         std::cin >> command;
         std::cout << "Given command: " << command << "\n";
-        if (command.compare(KCommandQueue)==0) {
+        int16_t steps = -1;
+        try {
+            steps = std::stoi(command);
+        }
+        catch(std::exception&) { }
+
+        if(steps>0) {
             for (auto w = my_workers.begin(); w != my_workers.end(); ++w) {
                 // Find first idle worker
                 if (w->get()->state() == Worker::WorkerState::EIdle) {
                     Worker* worker = w->get();
-                    auto lfunc = [worker]() {
-                        for (auto i = 0; i < 10 && worker->state()==Worker::WorkerState::EWorking; ++i) {
+                    auto lfunc = [worker, steps]() {
+                        for (auto i = 0; i < steps && worker->state()==Worker::WorkerState::EWorking; ++i) {
                             LOG_INFO() << "Lambda worker: " << worker->id() << " at work, step: " << i;
                             std::this_thread::sleep_for(std::chrono::seconds(1));
                         }
