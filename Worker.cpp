@@ -32,14 +32,38 @@ void Worker::stop()
 	LOG_INFO() << "Stopping worker: " << m_id;
 	if (m_running) {
 		m_running = false;
+		m_state = WorkerState::EExiting;
 		m_thread.join();
+	}
+}
+
+void Worker::work() 
+{
+	const std::lock_guard<std::mutex> lock(m_mutex);
+	if (m_state == WorkerState::EIdle) {
+		m_state = WorkerState::EWorking;
 	}
 }
 
 void Worker::doRun()
 {
 	while(m_running) {	
-		LOG_INFO() << "Worker: " << m_id << " @" << Worker::WorkerStateToString(m_state);
+		if (m_state == WorkerState::EWorking) {
+			doWork();
+		}
+		else {
+			LOG_INFO() << "Worker: " << m_id << " @" << Worker::WorkerStateToString(m_state);
+			std::this_thread::sleep_for(std::chrono::seconds(KThreadWaitSeconds));
+		}
+	}
+}
+
+void Worker::doWork()
+{
+	for(auto i = 0; i < 10; ++i) {
+		LOG_INFO() << "Worker: " << m_id << " at work, step: " << i;
 		std::this_thread::sleep_for(std::chrono::seconds(KThreadWaitSeconds));
 	}
+	LOG_INFO() << "Worker: " << m_id << " finished task";
+	m_state = WorkerState::EIdle;
 }

@@ -11,6 +11,7 @@
 
 static const uint16_t KNumberOfWorkers = 10;
 static const std::string KCommandEnd = "quit";
+static const std::string KCommandQueue = "new";
 
 int main()
 {
@@ -22,11 +23,14 @@ int main()
     workerCount = workerCount != 0 ? workerCount : KNumberOfWorkers;
 
     std::cout << "\nCreating [" << workerCount << "] workers\n";
+
+    // Create requested number of workers
     std::vector<std::shared_ptr<Worker>> my_workers;
     for (uint16_t i = 0; i < workerCount; ++i) {
         my_workers.emplace_back(std::make_shared<Worker>(i));
     }
 
+    // Start worker threads
     for (auto w = my_workers.begin(); w != my_workers.end(); ++w) {
         w->get()->start();
     }
@@ -36,9 +40,20 @@ int main()
         std::cout << "CMD: " << std::flush;
         std::cin >> command;
         std::cout << "Given command: " << command << "\n";
+        if (command.compare(KCommandQueue)==0) {
+            for (auto w = my_workers.begin(); w != my_workers.end(); ++w) {
+                // Find first idle worker
+                if (w->get()->state() == Worker::WorkerState::EIdle) {
+                    w->get()->work();
+                    break;
+                }
+            }
+        }
+
     }
     std::cout << "Terminating\n";
 
+    // Stop the workers, this will do thread join()
     for (auto w = my_workers.begin(); w != my_workers.end(); ++w) {
         w->get()->stop();
     }

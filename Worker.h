@@ -5,6 +5,7 @@
 #include <chrono>
 #include <thread>
 #include <string>
+#include <mutex>
 
 class Worker
 {
@@ -43,7 +44,7 @@ public: // enums
 		return statestr;
 	}
 
-	static const uint16_t KThreadWaitSeconds = 2;
+	static const uint16_t KThreadWaitSeconds = 1;
 
 public:
 	Worker();
@@ -52,14 +53,20 @@ public:
 
 public:
 	std::uint16_t id() const { return m_id; };
+	const WorkerState& state() const { return m_state; }
 	void start();
 	void stop();
+	void work();
+
+protected:
+	virtual void doWork();
 
 private:
 	void doRun();
 
 private:
 	std::thread m_thread;
+	std::mutex m_mutex;
 	WorkerState m_state;
 	bool m_running;
 	std::uint16_t m_id;
