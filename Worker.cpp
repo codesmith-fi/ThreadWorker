@@ -10,7 +10,7 @@ Worker::Worker() : Worker(0)
 }
 
 Worker::Worker(uint16_t id) : m_thread{}, m_state(WorkerState::ECreated), 
-	m_usefunction(false),  m_running(false), m_id(id)
+	m_id(id), m_running(false), m_usefunction(false)
 {
 	LOG_INFO() << "Created Worker number: " << m_id;
 }
