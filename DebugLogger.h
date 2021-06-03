@@ -29,6 +29,9 @@
 #include <sstream>
 #include <chrono>
 #include <ctime>
+#include <mutex>
+
+static std::mutex g_debuglogger_mutex;
 
 namespace codesmith
 {
@@ -65,7 +68,9 @@ namespace codesmith
 		public:
 			DebugLogger(DebugLogLevel severity = DebugLogLevel::EERROR, bool showtime = true) 
 				: m_buffer(), m_stm{}
-			{				
+			{	
+				g_debuglogger_mutex.lock();
+
 				if (showtime) {
 					make_time();
 					m_buffer << "[" << std::put_time(&m_stm, "%F %T") << "] ";
@@ -94,6 +99,7 @@ namespace codesmith
 			// Destructor, causes the debug info to be outputted with new line
 			virtual ~DebugLogger() {
 				std::cerr << m_buffer.str() << std::endl;
+				g_debuglogger_mutex.unlock();
 			}
 
 			/**
