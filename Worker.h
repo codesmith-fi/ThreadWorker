@@ -1,3 +1,50 @@
+/**
+ ThreadWorker (Worker.h)
+
+ A simple example of a class that encapsulates a thread and a worker which 
+ works within that thread.
+ 
+ See the blog article at https://codesmith.hashnode.dev/ for more info
+ on this tutorial.
+ 
+ By far this is NOT perfect. As all persons we all are learning new things
+ I want to share everything I have learned in the past to anyone
+ willing to come to the industry or learn these things just for hobby!
+ 
+ For an example, please see the provided example in
+ ThreadWorkerDemo.cpp
+
+ You can pass any task with a lambda to a free worker as showed.
+
+ I love programming, I work in the field and it is my hobby!
+ 
+ I hope you will contact me.
+
+ If you find this thing useful, I would not mind of you to get in to
+ contact with a fellow and old time programmer <3
+ 
+LICENSE - MIT
+Copyright (c) 2012-2021 Erno Pakarinen (codesmith-fi@gmail.com)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+*/
 #ifndef __WORKER_H_DEFINED__
 #define __WORKER_H_DEFINED__
 

@@ -1,10 +1,13 @@
 ThreadWorkerDemo 
 Author: Erno Pakarinen
-Date: 3rd of June 2021
+email: codesmith-fi@gmail.com
+Date: 26th of June 2021
 Contact: see bottom
 
 Description
 ===========
+
+Updated for the blog article! Feel free to comment and/or send me email. 
 
 This is a simple example of an extendable multi thread worker. 
 
